@@ -3,8 +3,8 @@ var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 
 var keys = require('./keys.js');
-// console.log(keys);
 
+// Twitter keys
 var client = new Twitter({
    consumer_key: keys.twitterKeys.consumer_key,
    consumer_secret: keys.twitterKeys.consumer_secret,
@@ -12,13 +12,16 @@ var client = new Twitter({
    access_token_secret: keys.twitterKeys.access_token_secret
 });
 
+// Spotify keys
 var spotify = new Spotify({
 	id: keys.spotifyKeys.id,
 	secret: keys.spotifyKeys.secret
 });
 
+// Recieves command
 var command = process.argv[2];
 
+// Determine funciton based off command
 switch(command) {
 	case "tweet":
 		tweet();
@@ -34,8 +37,9 @@ switch(command) {
 		break;
 }
 
+// Displays tweet history 
 function tweet() {
-	client.get('statuses/user_timeline',screen_name='@trvisxx', function(err, tweet, response){
+	client.get('statuses/user_timeline', function(err, tweet, response){
 	   if(err) return console.log(err);
 	   
 	   console.log("\nHere are your tweets");
@@ -50,6 +54,7 @@ function tweet() {
 	});
 }
 
+// Displays song info of given song
 function spotifySong() {
 	var song = process.argv[3];
 
@@ -67,6 +72,7 @@ function spotifySong() {
 	});
 }
 
+// Displays movie info of given movie
 function searchMovie() {
 	var movieName = process.argv[3];
 
@@ -89,9 +95,11 @@ function searchMovie() {
 	});
 }
 
+// Function that disaplys when no command given
 function help() {
 	console.log("\nSorry, I don't know what you mean" + 
 				"\nHere is what I can do:" + 
+				"\nliri tweet -- To show tweets (not currently working)" +
 				"\nliri movie -- To search a movie" +
 				"\nliri spotify -- To search a song");
 }
